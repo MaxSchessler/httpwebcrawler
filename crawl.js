@@ -1,3 +1,20 @@
+const {JSDOM} = require("jsdom");
+
+function getURLsFromHTML(htmlBody, baseURL) {
+    // base is base url of website we are crawling
+    // htmlBodyis html of website we are crawling
+    // returns araw of strings represending the urls on the web page
+    let urls = [];
+    const dom = new JSDOM(htmlBody);
+    const aTags = dom.window.document.querySelectorAll("a");
+    for (const linkelement of aTags) {
+        urls.push(linkelement.href);
+    }
+
+    return urls;
+}
+
+
 function normalizeURL(urlString) {
     const urlObj = new URL(urlString);
     const hostPath = `${urlObj.hostname}${urlObj.pathname}`;
@@ -9,5 +26,6 @@ function normalizeURL(urlString) {
 }
 
 module.exports = {
-    normalizeURL
+    normalizeURL,
+    getURLsFromHTML
 }

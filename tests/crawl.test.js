@@ -1,4 +1,4 @@
-const {normalizeURL} = require("httpwebcrawler/crawl.js"); 
+const {normalizeURL, getURLsFromHTML} = require("httpwebcrawler/crawl.js"); 
 const {test, expect} = require("@jest/globals");
 
 test("normalizeURL strip protocal ", () => {
@@ -29,4 +29,18 @@ test("normalizeURL strip http", () => {
     const actual = normalizeURL(input);
     const expected = "blog.boot.dev";
     expect(actual).toEqual(actual);
+})
+
+test("getURLsFromHTML", () => {
+    const htmlBody = `
+    <html>
+        <body>
+            <a href="https://blog.boot.dev"><a/>
+        </body>
+    <html>
+`
+    const inputURL = "https://blog.boot.dev";
+    const actual = getURLsFromHTML(htmlBody, inputURL);
+    const expected = ["https://blog.boot.dev/", ""];
+    expect(actual).toEqual(expected);
 })

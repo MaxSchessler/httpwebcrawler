@@ -8,7 +8,15 @@ function getURLsFromHTML(htmlBody, baseURL) {
     const dom = new JSDOM(htmlBody);
     const aTags = dom.window.document.querySelectorAll("a");
     for (const linkelement of aTags) {
+
+      if (linkelement.href.slice(0, 1) === "/") {
+        // relative url
+        urls.push(`${baseURL}${linkelement.href}`);
+      } else {
+        // absolute url
         urls.push(linkelement.href);
+      }
+      
     }
 
     return urls;

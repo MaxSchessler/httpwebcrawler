@@ -1,5 +1,6 @@
 const {normalizeURL, getURLsFromHTML} = require("httpwebcrawler/crawl.js"); 
 const {test, expect} = require("@jest/globals");
+const { html } = require("parse5");
 
 test("normalizeURL strip protocal ", () => {
     const input = "https://blog.boot.dev/path";
@@ -29,12 +30,12 @@ test("normalizeURL strip http", () => {
     const actual = normalizeURL(input);
     const expected = "blog.boot.dev";
     expect(actual).toEqual(actual);
-})
+});
 
 test("getURLsFromHTML", () => {
     const htmlBody = `
     <html>
-        <body>
+        <body>y
             <a href="https://blog.boot.dev/path1/"></a>
             <a href="/path2/"</a>
         </body>
@@ -44,4 +45,21 @@ test("getURLsFromHTML", () => {
     const actual = getURLsFromHTML(htmlBody, inputURL);
     const expected = ["https://blog.boot.dev/path1/", "https://blog.boot.dev/path2/"];
     expect(actual).toEqual(expected);
-})
+});
+
+test("getURlsFromHTML test for valid url", () => {
+    const htmlBody = `
+    <html>
+    <body>
+    <a href="invalid"</a>
+    <a href="https://blog.boot.dev/"</a>
+    </body>
+    </html>
+    `;
+
+    const baseURL = "https://blog.boot.dev/";
+
+    const actual = getURLsFromHTML(htmlBody, baseURL);
+    const expected = ["https://blog.boot.dev/"];
+    expect(actual).toEqual(expected);
+});

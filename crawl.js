@@ -7,18 +7,17 @@ function getURLsFromHTML(htmlBody, baseURL) {
     let urls = [];
     const dom = new JSDOM(htmlBody);
     const aTags = dom.window.document.querySelectorAll("a");
-    for (const linkelement of aTags) {
-
-      if (linkelement.href.slice(0, 1) === "/") {
-        // relative url
-        urls.push(`${baseURL}${linkelement.href}`);
-      } else {
-        // absolute url
-        urls.push(linkelement.href);
-      }
-      
+    
+    for (const linkElement of aTags) {
+        if (linkElement.href.slice(0, 1) === "/") {
+            // this is a relative url
+            // append relative url to end of base url
+            urls.push( `${baseURL}${linkElement.href}` );
+        } else {
+            // this is a absolute url
+            urls.push(linkElement.href);
+        }
     }
-
     return urls;
 }
 

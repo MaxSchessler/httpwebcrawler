@@ -35,13 +35,13 @@ test("getURLsFromHTML", () => {
     const htmlBody = `
     <html>
         <body>
-            <a href="https://blog.boot.dev/path1/"><a/>
-            <a href="/path2/"
+            <a href="https://blog.boot.dev/path1/"></a>
+            <a href="/path2/"</a>
         </body>
     <html>
 `
     const inputURL = "https://blog.boot.dev";
     const actual = getURLsFromHTML(htmlBody, inputURL);
-    const expected = ["https://blog.boot.dev/path1/", "", "https://blog.boot.dev/path2/"];
+    const expected = ["https://blog.boot.dev/path1/", "https://blog.boot.dev/path2/"];
     expect(actual).toEqual(expected);
 })

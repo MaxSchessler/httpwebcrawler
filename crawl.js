@@ -1,4 +1,5 @@
 const {JSDOM} = require("jsdom");
+const { cursorTo } = require("readline");
 
 function getURLsFromHTML(htmlBody, baseURL) {
     // base is base url of website we are crawling
@@ -43,7 +44,16 @@ function normalizeURL(urlString) {
     return hostPath;
 }
 
+async function crawlPage(currentURL) {
+    console.log("Crawling " + currentURL);
+
+    const responce = await fetch(currentURL);
+
+    console.log(await responce.text());
+}
+
 module.exports = {
     normalizeURL,
-    getURLsFromHTML
+    getURLsFromHTML,
+    crawlPage
 }

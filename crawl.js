@@ -47,9 +47,25 @@ function normalizeURL(urlString) {
 async function crawlPage(currentURL) {
     console.log("Crawling " + currentURL);
 
-    const responce = await fetch(currentURL);
+    try {
+        const responce = await fetch(currentURL);
+        // make sure responce status is not errored out
+        if (responce.status > 399) {
+            console.log(`ERROR IN FETCH: STATUS: ${ responce.status}`);
+            return;
+        }
+        // get content type and make sure it is html
+        const contentType = responce.headers.get("content-type");
+        if (!contentType.includes("text/html")) {
+            console.log(`NON HTML RESPONCE: ${contentType} ON ${currentURL}`);
+            return;
+        }
 
-    console.log(await responce.text());
+        console.log(await responce.text());
+    } catch (err) {
+        console.log(`ERROR ${err.message}`)
+    }
+
 }
 
 module.exports = {

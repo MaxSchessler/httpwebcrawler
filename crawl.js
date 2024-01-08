@@ -44,7 +44,7 @@ function normalizeURL(urlString) {
     return hostPath;
 }
 
-async function crawlPage(currentURL) {
+async function crawlPage(currentURL, baseURL) {
     console.log("Crawling " + currentURL);
 
     try {
@@ -61,7 +61,11 @@ async function crawlPage(currentURL) {
             return;
         }
 
-        console.log(await responce.text());
+        const links = getURLsFromHTML(await responce.text(), baseURL);
+        console.log(links);
+
+        console.log(hrefs);
+
     } catch (err) {
         console.log(`ERROR ${err.message}`)
     }
